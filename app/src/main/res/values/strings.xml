@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Tasks</string>
+    <string name="description">Description</string>
+    <string name="task_details">Task Details</string>
+    <string name="go_back">Go back</string>
+    <string name="enter_new_task">Enter new task</string>
+    <string name="edit_task">Edit task</string>
+    <string name="tasks">Tasks</string>
+    <string name="no_task_added">No task added. Click + button bellow to add new task.</string>
+    <string name="check_box">Check Box</string>
+    <string name="notification_permission_title">Notification permission</string>
+    <string name="notification_permission_description">The notification permission is important for this app. Please grant the permission.</string>
+    <string name="ok">OK</string>
+    <string name="request_permission">Request Permission</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="visibility">Visibility</string>
+    <string name="lock">Lock</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="cancel">Cancel</string>
+    <string name="pick_time">Pick time</string>
+</resources>
