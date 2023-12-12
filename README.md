@@ -1,10 +1,8 @@
 ![Screenshot.png](Screenshot.png)
 
-# Tasks 
+# Tasks
 
-[Download Apk](./app/release/app-release.apk) (3.11 MB)
-
-Simple ToDo app for android built with Kotlin.
+ToDo app for android built with Kotlin.
 
 This app uses:
 - Clean Architecture
