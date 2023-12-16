@@ -55,7 +55,7 @@ fun DateDialog(openDialog: MutableState<Boolean>, onDateSet: (Long?) -> Unit) {
 @Composable
 fun TimeDialog(openDialog: MutableState<Boolean>, onTimeSet: (Int, Int) -> Unit) {
     if (openDialog.value) {
-        val state = rememberTimePickerState()
+        val state = rememberTimePickerState(is24Hour = false)
         AlertDialog(onDismissRequest = { openDialog.value = false }, confirmButton = {
             TextButton(onClick = {
                 openDialog.value = false

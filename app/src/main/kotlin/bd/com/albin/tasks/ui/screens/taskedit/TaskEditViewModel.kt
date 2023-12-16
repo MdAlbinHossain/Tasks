@@ -7,8 +7,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bd.com.albin.tasks.data.model.Task
-import bd.com.albin.tasks.domain.GetTaskStreamUseCase
-import bd.com.albin.tasks.domain.UpdateTaskUseCase
+import bd.com.albin.tasks.domain.usecases.GetTaskStreamUseCase
+import bd.com.albin.tasks.domain.usecases.UpdateTaskUseCase
 import bd.com.albin.tasks.ui.navigation.Screen
 import bd.com.albin.tasks.ui.screens.taskentry.TaskUiState
 import bd.com.albin.tasks.ui.screens.taskentry.toTaskUiState

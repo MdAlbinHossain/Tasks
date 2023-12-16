@@ -3,11 +3,9 @@ package bd.com.albin.tasks.ui.screens.taskentry
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -23,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -135,10 +134,9 @@ fun TaskInputForm(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .height(64.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(imageVector = Icons.Default.EditCalendar, contentDescription = "Set Date")
-                Spacer(modifier = Modifier.width(16.dp))
                 if (task.dueDate == 0L) Text(text = "Set Date")
                 else {
                     val calendar = Calendar.getInstance(TimeZone.getDefault())
@@ -147,6 +145,7 @@ fun TaskInputForm(
                         SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(calendar.time)
                     Text(text = date.toString())
                 }
+                Icon(imageVector = Icons.Default.EditCalendar, contentDescription = "Set Date")
                 DateDialog(openDialog = openDateDialog) {
                     it?.let {
                         onValueChange(task.copy(dueDate = it))
@@ -160,14 +159,27 @@ fun TaskInputForm(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .height(64.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Icon(imageVector = Icons.Default.AccessTime, contentDescription = "Set Time")
-                Spacer(modifier = Modifier.width(16.dp))
                 Text(if (task.dueTime == 0L) "Set Time" else "${task.dueTime / 60}:${task.dueTime % 60}")
                 TimeDialog(openDialog = openTimeDialog) { a, b ->
-                    onValueChange(task.copy(dueTime = (a.toLong() * 60L) + b.toLong()))
+                    onValueChange(task.copy(dueTime = ((a.toLong() * 60L) + b.toLong())))
                 }
+            }
+        }
+        Card(onClick = { openTimeDialog.value = true }) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .height(64.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Reminder")
+                Switch(checked = task.remind, onCheckedChange ={onValueChange(task.copy(remind = it))})
             }
         }
     }

@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.accompanist.permissions)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    ksp(libs.hilt.ext.compiler)
 
     implementation(libs.kotlinx.datetime)
     implementation(libs.androidx.core.splashscreen)
@@ -85,6 +86,9 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
+
+    implementation(libs.androidx.work.ktx)
+    implementation(libs.hilt.ext.work)
 
     implementation(libs.androidx.compose.material3.windowSizeClass)
 }

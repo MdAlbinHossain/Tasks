@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import bd.com.albin.tasks.data.model.Task
-import bd.com.albin.tasks.domain.InsertTaskUseCase
+import bd.com.albin.tasks.domain.usecases.InsertTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

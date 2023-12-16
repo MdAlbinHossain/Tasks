@@ -25,7 +25,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesTasksRepository(tasksDatabase: TasksDatabase): TasksRepository =
-        LocalTasksRepository(tasksDatabase.tasksDao)
-
+    fun providesTasksRepository(
+        tasksDatabase: TasksDatabase, @ApplicationContext context: Context
+    ): TasksRepository = LocalTasksRepository(tasksDatabase.tasksDao, context)
 }

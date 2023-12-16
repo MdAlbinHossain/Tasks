@@ -19,4 +19,3 @@ fun TasksApp(
         TasksNavHost(appState = appState)
     }
 }
-

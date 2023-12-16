@@ -19,4 +19,7 @@
     <string name="password">Password</string>
     <string name="cancel">Cancel</string>
     <string name="pick_time">Pick time</string>
+    <string name="more_notifications">More Notifications %d</string>
+    <string name="notification_channel_description">Shows tasks reminder notifications</string>
+    <string name="notification_channel_name">Tasks Reminder</string>
 </resources>

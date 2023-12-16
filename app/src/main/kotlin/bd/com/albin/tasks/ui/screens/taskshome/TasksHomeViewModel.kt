@@ -3,9 +3,9 @@ package bd.com.albin.tasks.ui.screens.taskshome
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bd.com.albin.tasks.data.model.Task
-import bd.com.albin.tasks.domain.DeleteTaskUseCase
-import bd.com.albin.tasks.domain.GetAllTasksStreamUseCase
-import bd.com.albin.tasks.domain.UpdateTaskUseCase
+import bd.com.albin.tasks.domain.usecases.DeleteTaskUseCase
+import bd.com.albin.tasks.domain.usecases.GetAllTasksStreamUseCase
+import bd.com.albin.tasks.domain.usecases.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

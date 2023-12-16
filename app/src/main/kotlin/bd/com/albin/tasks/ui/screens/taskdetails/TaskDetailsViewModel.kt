@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bd.com.albin.tasks.data.model.Task
-import bd.com.albin.tasks.domain.DeleteTaskUseCase
-import bd.com.albin.tasks.domain.GetTaskStreamUseCase
+import bd.com.albin.tasks.domain.usecases.DeleteTaskUseCase
+import bd.com.albin.tasks.domain.usecases.GetTaskStreamUseCase
 import bd.com.albin.tasks.ui.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
