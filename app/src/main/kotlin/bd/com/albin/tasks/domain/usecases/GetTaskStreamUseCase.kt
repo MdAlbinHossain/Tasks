@@ -1,4 +1,4 @@
-package bd.com.albin.tasks.domain
+package bd.com.albin.tasks.domain.usecase
 
 import bd.com.albin.tasks.data.model.Task
 import bd.com.albin.tasks.data.repository.TasksRepository
