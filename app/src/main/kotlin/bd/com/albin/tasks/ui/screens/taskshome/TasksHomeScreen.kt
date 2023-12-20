@@ -4,6 +4,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -12,7 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -23,6 +24,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -48,24 +51,38 @@ fun TasksHomeScreen(
 ) {
     val tasksHomeUiState: TasksHomeUiState by viewModel.tasksUiState.collectAsStateWithLifecycle()
 
-    Scaffold(topBar = { CenterAlignedTopAppBar(title = { Text(stringResource(R.string.tasks)) }) },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { appState.navigate(Screen.TaskEntry.route) },
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(32.dp)
-            ) {
+    Scaffold(topBar = {
+        TopAppBar(navigationIcon = {
+            IconButton(onClick = { /*TODO*/ }) {
                 Icon(
-                    imageVector = Icons.Default.Add, contentDescription = null
+                    imageVector = Icons.Default.Home,
+                    contentDescription = stringResource(id = R.string.tasks)
                 )
             }
         },
-        snackbarHost = { SnackbarHost(hostState = appState.snackbarHostState) }) { innerPadding ->
+            title = { Text(stringResource(R.string.tasks)) },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+            )
+        )
+    }, floatingActionButton = {
+        FloatingActionButton(
+            onClick = { appState.navigate(Screen.TaskEntry.route) },
+            shape = MaterialTheme.shapes.medium,
+            modifier = Modifier.padding(32.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add, contentDescription = null
+            )
+        }
+    }, snackbarHost = { SnackbarHost(hostState = appState.snackbarHostState) }) { innerPadding ->
         when (tasksHomeUiState) {
             is TasksHomeUiState.Success -> HomeBody(
                 taskList = (tasksHomeUiState as TasksHomeUiState.Success).tasksList,
                 onTaskClick = { task: Task ->
-                    appState.navigate("${Screen.TaskDetails.route}/${task.id}")
+                    appState.navigate("${Screen.TaskEdit.route}/${task.id}")
                 },
                 updateTask = {
                     appState.coroutineScope.launch {
@@ -107,7 +124,7 @@ private fun HomeBody(
         if (taskList.isEmpty()) {
             Column(
                 modifier = modifier
-                    .padding(32.dp)
+//                    .padding(32.dp)
                     .fillMaxSize()
                     .wrapContentSize(align = Alignment.Center)
             ) {
@@ -123,7 +140,7 @@ private fun HomeBody(
                 updateTask = updateTask,
                 onTaskClick = onTaskClick,
                 deleteTask = deleteTask,
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier
             )
         }
     }
@@ -144,7 +161,7 @@ private fun TasksList(
                 onDeleteClick = { deleteTask(task) },
                 onTaskComplete = { updateTask(task.copy(completed = it)) },
                 modifier = Modifier
-                    .padding(10.dp)
+                    .padding(vertical = 10.dp)
                     .clickable { onTaskClick(task) }
                     .animateItemPlacement(tween(250)))
         }
@@ -158,17 +175,21 @@ private fun TaskItem(
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ListItem(headlineContent = {
-        Text(text = task.title, style = MaterialTheme.typography.titleMedium)
-    }, supportingContent = {
-        Text(text = task.description, style = MaterialTheme.typography.bodyMedium)
-    }, leadingContent = {
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
         Checkbox(checked = task.completed, onCheckedChange = { onTaskComplete(it) })
-    }, tonalElevation = 4.dp, shadowElevation = 4.dp, modifier = modifier, trailingContent = {
+        ListItem(
+            headlineContent = {
+                Text(text = task.title, style = MaterialTheme.typography.titleMedium)
+            },
+            supportingContent = {
+                Text(text = task.description, style = MaterialTheme.typography.bodyMedium)
+            }, shadowElevation = 4.dp,
+            modifier = Modifier.weight(1.0f),
+        )
         IconButton(onClick = onDeleteClick) {
             Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete")
         }
-    })
+    }
 }
 
 

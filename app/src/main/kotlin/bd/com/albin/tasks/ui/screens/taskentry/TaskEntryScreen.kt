@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.EditCalendar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,6 +23,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,7 +50,7 @@ import java.util.TimeZone
 @Composable
 fun TaskEntryScreen(appState: TasksAppState, viewModel: TaskEntryViewModel = hiltViewModel()) {
     Scaffold(topBar = {
-        CenterAlignedTopAppBar(
+        TopAppBar(
             navigationIcon = {
                 IconButton(onClick = { appState.popUp() }) {
                     Icon(
@@ -60,6 +61,11 @@ fun TaskEntryScreen(appState: TasksAppState, viewModel: TaskEntryViewModel = hil
                 }
             },
             title = { Text(stringResource(R.string.enter_new_task)) },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+            )
         )
     }) {
         TaskEntryBody(
@@ -162,8 +168,8 @@ fun TaskInputForm(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(imageVector = Icons.Default.AccessTime, contentDescription = "Set Time")
                 Text(if (task.dueTime == 0L) "Set Time" else "${task.dueTime / 60}:${task.dueTime % 60}")
+                Icon(imageVector = Icons.Default.AccessTime, contentDescription = "Set Time")
                 TimeDialog(openDialog = openTimeDialog) { a, b ->
                     onValueChange(task.copy(dueTime = ((a.toLong() * 60L) + b.toLong())))
                 }
@@ -179,7 +185,8 @@ fun TaskInputForm(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text("Reminder")
-                Switch(checked = task.remind, onCheckedChange ={onValueChange(task.copy(remind = it))})
+                Switch(checked = task.remind,
+                    onCheckedChange = { onValueChange(task.copy(remind = it)) })
             }
         }
     }

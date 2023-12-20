@@ -7,7 +7,7 @@ junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 kotlinxCoroutinesPlayServices = "1.7.3"
 lifecycleRuntimeKtx = "2.6.2"
-activityCompose = "1.8.1"
+activityCompose = "1.8.2"
 composeBom = "2023.10.01"
 compileSdk = "34"
 minSdk = "28"
@@ -19,7 +19,7 @@ androidxAppCompat = "1.6.1"
 androidxCoreSplashscreen = "1.0.1"
 androidxDataStore = "1.0.0"
 androidxHiltNavigationCompose = "1.1.0"
-androidxNavigation = "2.7.5"
+androidxNavigation = "2.7.6"
 androidxWork = "2.9.0"
 coil = "2.4.0"
 
@@ -53,6 +53,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }

@@ -21,6 +21,9 @@ import androidx.compose.ui.res.stringResource
 import bd.com.albin.tasks.R
 import bd.com.albin.tasks.common.ext.alertDialog
 import bd.com.albin.tasks.common.ext.textButton
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +58,10 @@ fun DateDialog(openDialog: MutableState<Boolean>, onDateSet: (Long?) -> Unit) {
 @Composable
 fun TimeDialog(openDialog: MutableState<Boolean>, onTimeSet: (Int, Int) -> Unit) {
     if (openDialog.value) {
-        val state = rememberTimePickerState(is24Hour = false)
+        val initialTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        val state = rememberTimePickerState(
+            initialHour = initialTime.hour, initialMinute = initialTime.minute, is24Hour = false
+        )
         AlertDialog(onDismissRequest = { openDialog.value = false }, confirmButton = {
             TextButton(onClick = {
                 openDialog.value = false

@@ -7,10 +7,6 @@ sealed class Screen(val route: String) {
         const val TASK_ID: String = "taskId"
     }
 
-    data object TaskDetails : Screen("task_details") {
-        const val TASK_ID: String = "taskId"
-    }
-
     data object TaskEntry : Screen("task_entry")
     data object Settings : Screen("settings")
 }
