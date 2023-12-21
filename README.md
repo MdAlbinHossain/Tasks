@@ -4,7 +4,7 @@
 
 ToDo app for android built with Kotlin.
 
-[Download apk (3 MB only)](./app-release.apk)
+[Download apk (2.93 MB only)](./app-release.apk)
 
 This app uses:
 - Clean Architecture
