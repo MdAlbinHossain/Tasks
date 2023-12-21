@@ -13,3 +13,4 @@ This app uses:
 - Hilt for DI
 - WorkManager
 - Splash Screen
+- Notifications
