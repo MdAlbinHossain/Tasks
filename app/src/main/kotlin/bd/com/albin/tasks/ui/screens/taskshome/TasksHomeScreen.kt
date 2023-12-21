@@ -3,6 +3,7 @@ package bd.com.albin.tasks.ui.screens.taskshome
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.NotificationsActive
+import androidx.compose.material.icons.filled.NotificationsOff
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -30,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +47,10 @@ import bd.com.albin.tasks.ui.TasksAppState
 import bd.com.albin.tasks.ui.navigation.Screen
 import bd.com.albin.tasks.ui.theme.TasksTheme
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,16 +58,18 @@ fun TasksHomeScreen(
     appState: TasksAppState, viewModel: TasksHomeViewModel = hiltViewModel()
 ) {
     val tasksHomeUiState: TasksHomeUiState by viewModel.tasksUiState.collectAsStateWithLifecycle()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    Scaffold(topBar = {
-        TopAppBar(navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(
-                    imageVector = Icons.Default.Home,
-                    contentDescription = stringResource(id = R.string.tasks)
-                )
-            }
-        },
+    Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
+        TopAppBar(scrollBehavior = scrollBehavior,
+            navigationIcon = {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Default.Home,
+                        contentDescription = stringResource(id = R.string.tasks)
+                    )
+                }
+            },
             title = { Text(stringResource(R.string.tasks)) },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primary,
@@ -119,12 +129,12 @@ private fun HomeBody(
     modifier: Modifier = Modifier
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier.padding(top = 16.dp)
     ) {
         if (taskList.isEmpty()) {
             Column(
                 modifier = modifier
-//                    .padding(32.dp)
                     .fillMaxSize()
                     .wrapContentSize(align = Alignment.Center)
             ) {
@@ -155,13 +165,14 @@ private fun TasksList(
     deleteTask: (Task) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(
+        modifier = modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         items(items = taskList, key = { it.id }) { task ->
             TaskItem(task = task,
                 onDeleteClick = { deleteTask(task) },
                 onTaskComplete = { updateTask(task.copy(completed = it)) },
                 modifier = Modifier
-                    .padding(vertical = 10.dp)
                     .clickable { onTaskClick(task) }
                     .animateItemPlacement(tween(250)))
         }
@@ -182,8 +193,36 @@ private fun TaskItem(
                 Text(text = task.title, style = MaterialTheme.typography.titleMedium)
             },
             supportingContent = {
-                Text(text = task.description, style = MaterialTheme.typography.bodyMedium)
-            }, shadowElevation = 4.dp,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    if (task.dueDate != 0L) {
+                        val calendar = Calendar.getInstance(TimeZone.getDefault())
+                        calendar.timeInMillis = task.dueDate
+                        val date = SimpleDateFormat(
+                            "EEE, d MMM yyyy", Locale.ENGLISH
+                        ).format(calendar.time)
+                        Text(
+                            text = date.toString(), style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+                    if (task.dueTime != 0L) {
+                        val hour = task.dueTime / 60
+                        Text(
+                            (if (hour > 12) (hour - 12) else hour).toString() + " : ${task.dueTime % 60} " + if (hour < 12) "AM" else "PM",
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+                    if (task.dueTime != 0L && task.dueDate != 0L) {
+                        Icon(
+                            imageVector = if (task.remind) Icons.Default.NotificationsActive else Icons.Default.NotificationsOff,
+                            contentDescription = "Alarm Indicator"
+                        )
+                    }
+                }
+            },
+            shadowElevation = 4.dp, tonalElevation = 4.dp,
             modifier = Modifier.weight(1.0f),
         )
         IconButton(onClick = onDeleteClick) {
@@ -198,7 +237,9 @@ private fun TaskItem(
 fun HomeBodyPreview() {
     TasksTheme {
         HomeBody(listOf(
-            Task(1, "Game", "Hello"), Task(2, "Pen"), Task(3, "TV")
+            Task(1, "Game", "Hello"),
+            Task(2, "Pen", remind = true, dueDate = 1, dueTime = 1),
+            Task(3, "TV")
         ), updateTask = {}, onTaskClick = {}, deleteTask = {})
     }
 }

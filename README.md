@@ -9,3 +9,5 @@ This app uses:
 - Jetpack Compose
 - Room Database
 - Hilt for DI
+- WorkManager
+- Splash Screen
