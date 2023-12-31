@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.NotificationsOff
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -60,34 +61,37 @@ fun TasksHomeScreen(
     val tasksHomeUiState: TasksHomeUiState by viewModel.tasksUiState.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
-        TopAppBar(scrollBehavior = scrollBehavior,
-            navigationIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        imageVector = Icons.Default.Home,
-                        contentDescription = stringResource(id = R.string.tasks)
-                    )
-                }
-            },
-            title = { Text(stringResource(R.string.tasks)) },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+    Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(scrollBehavior = scrollBehavior,
+                navigationIcon = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = stringResource(id = R.string.tasks)
+                        )
+                    }
+                },
+                title = { Text(stringResource(R.string.tasks)) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                )
             )
-        )
-    }, floatingActionButton = {
-        FloatingActionButton(
-            onClick = { appState.navigate(Screen.TaskEntry.route) },
-            shape = MaterialTheme.shapes.medium,
-            modifier = Modifier.padding(32.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add, contentDescription = null
-            )
-        }
-    }, snackbarHost = { SnackbarHost(hostState = appState.snackbarHostState) }) { innerPadding ->
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { appState.navigate(Screen.TaskEntry.route) },
+                shape = MaterialTheme.shapes.medium,
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add, contentDescription = null
+                )
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+        snackbarHost = { SnackbarHost(hostState = appState.snackbarHostState) }) { innerPadding ->
         when (tasksHomeUiState) {
             is TasksHomeUiState.Success -> HomeBody(
                 taskList = (tasksHomeUiState as TasksHomeUiState.Success).tasksList,
@@ -129,8 +133,7 @@ private fun HomeBody(
     modifier: Modifier = Modifier
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(top = 16.dp)
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.padding(top = 16.dp)
     ) {
         if (taskList.isEmpty()) {
             Column(

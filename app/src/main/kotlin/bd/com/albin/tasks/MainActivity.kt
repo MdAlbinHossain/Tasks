@@ -11,7 +11,7 @@ import bd.com.albin.tasks.ui.theme.TasksTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TasksActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()

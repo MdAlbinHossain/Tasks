@@ -2,4 +2,11 @@
 <resources>
 
     <style name="Theme.Tasks" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Tasks.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.Tasks</item>
+    </style>
+
 </resources>
